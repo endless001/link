@@ -1,0 +1,13 @@
+# compiled files
+obj
+bin
+node_modules
+# user files
+.user
+.suo
+.vs
+.idea
+*.user
+
+
+

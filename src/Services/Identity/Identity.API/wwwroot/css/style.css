@@ -1,0 +1,21 @@
+﻿.root {
+    display: flex;
+    min-height: 100vh;
+    background-image: url('../images/background.svg')
+}
+.account-container {
+    margin-top: 6rem !important;
+}
+
+.validation-summary-errors ul li{
+  list-style-type:none;
+  margin:0px;
+}
+
+.consent-remember{
+    margin-top:10px;
+}
+
+.consent-buttons{
+    margin-top:10px;
+}

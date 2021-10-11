@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo
+
+  redis:
+    image: redis:alpine
+
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: 123456
+
+  account-api:
+    image: account.api
+    build:
+      context: .
+      dockerfile: src/Services/Account/Account.API/Dockerfile
+    depends_on:
+      - mysql
+
+#  contact-api:
+#    image: contact.api
+#    build:
+#      context: .
+#      dockerfile: src/Services/Contact/Contact.API/Dockerfile
+#    depends_on:
+#      - mongo
+#
+#  download-api:
+#    image: download.api
+#    build:
+#      context: .
+#      dockerfile: src/Services/Download/Download.API/Dockerfile
+#
+#  file-api:
+#    image: file.api
+#    build:
+#      context: .
+#      dockerfile: src/Services/File/File.API/Dockerfile
+#
+#
+#  identity-api:
+#    image: identity.api
+#    build:
+#      context: .
+#      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+#
+#  message-api:
+#    image: message.api
+#    build:
+#      context: .
+#      dockerfile: src/Services/Message/Message.API/Dockerfile
+#
+#  upload-api:
+#    image: upload.api
+#    build:
+#      context: .
+#      dockerfile: src/Services/Upload/Upload.API/Dockerfile
