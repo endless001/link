@@ -1,0 +1,58 @@
+.side-menu {
+    min-width: 75px;
+    max-width: 75px;
+    height: 100vh;
+    min-height: 570px;
+    background-color: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 9;
+    -webkit-box-shadow: 0 2px 4px rgba(15, 34, 58, .12);
+    box-shadow: 0 2px 4px rgba(15, 34, 58, .12);
+}
+.side-menu .navbar-brand-box {
+    text-align: center;
+}
+.side-menu .navbar-brand-box .logo {
+    line-height: 70px;
+}
+.side-menu .navbar-brand-box .logo-dark {
+    display: block;
+}
+.side-menu-nav .nav-item {
+    margin: 7px 0;
+}
+
+
+.side-menu-nav .nav-item .nav-link {
+    text-align: center;
+    font-size: 24px;
+    color: #878a92;
+    width: 56px;
+    height: 56px;
+    line-height: 56px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 0;
+}
+
+.side-menu-nav .nav-item .nav-link {
+    text-align: center;
+    font-size: 24px;
+    color: #878a92;
+    width: 56px;
+    height: 56px;
+    line-height: 56px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 0;
+}
+
+
+.profile-user {
+    height: 36px;
+    width: 36px;
+    background-color: #36404a;
+    padding: 3px;
+}
