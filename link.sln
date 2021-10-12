@@ -51,6 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upload.API", "src\Services\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BCC090A7-6B59-4389-ABEF-B5CDA14AEB1C}"
 	ProjectSection(SolutionItems) = preProject
+		docker-compose.efk.yml = docker-compose.efk.yml
 		docker-compose.yml = docker-compose.yml
 		NuGet.config = NuGet.config
 	EndProjectSection
@@ -61,7 +62,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSPA", "src\Web\WebSPA\We
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chat", "Chat", "{F278ECB8-58AD-4693-9AEB-DF2836140A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.API", "src\Services\Chat\Chat.API\Chat.API.csproj", "{4527E7E7-F118-4052-B59E-D98C80175562}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.API", "src\Services\Chat\Chat.API\Chat.API.csproj", "{4527E7E7-F118-4052-B59E-D98C80175562}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,26 +10,43 @@ services:
   mysql:
     image: mysql
     restart: always
+    ports:
+      - 3306:3306
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: 123456
 
   account-api:
     image: account.api
+    ports:
+      - 5000:80
     build:
       context: .
       dockerfile: src/Services/Account/Account.API/Dockerfile
     depends_on:
       - mysql
+    logging:
+      driver: 'fluentd'
+      options:
+        fluentd-address: localhost:24224
+        tag: httpd.access
 
-#  contact-api:
-#    image: contact.api
-#    build:
-#      context: .
-#      dockerfile: src/Services/Contact/Contact.API/Dockerfile
-#    depends_on:
-#      - mongo
-#
+  contact-api:
+    image: contact.api
+    build:
+      context: .
+      dockerfile: src/Services/Contact/Contact.API/Dockerfile
+    depends_on:
+      - mongo
+      - identity-api
+    logging:
+      driver: 'fluentd'
+      options:
+        fluentd-address: localhost:24224
+        tag: httpd.access
+
+
+
 #  download-api:
 #    image: download.api
 #    build:
@@ -43,18 +60,35 @@ services:
 #      dockerfile: src/Services/File/File.API/Dockerfile
 #
 #
-#  identity-api:
-#    image: identity.api
-#    build:
-#      context: .
-#      dockerfile: src/Services/Identity/Identity.API/Dockerfile
-#
-#  message-api:
-#    image: message.api
-#    build:
-#      context: .
-#      dockerfile: src/Services/Message/Message.API/Dockerfile
-#
+  identity-api:
+    image: identity.api
+    ports:
+      - 7000:80
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+    depends_on:
+      - mysql
+      - redis
+      - message-api
+      - account-api
+    logging:
+      driver: 'fluentd'
+      options:
+        fluentd-address: localhost:24224
+        tag: httpd.access
+
+  message-api:
+    image: message.api
+    build:
+      context: .
+      dockerfile: src/Services/Message/Message.API/Dockerfile
+    logging:
+      driver: 'fluentd'
+      options:
+        fluentd-address: localhost:24224
+        tag: httpd.access
+
 #  upload-api:
 #    image: upload.api
 #    build:

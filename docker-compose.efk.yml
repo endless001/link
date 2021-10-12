@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+
+  elasticsearch:
+    build:
+      context: deploy/efk/elasticsearch/
+    volumes:
+      - ./deploy/efk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+
+  fluentd:
+    build: deploy/efk/fluentd/
+    volumes:
+      - ./deploy/efk/fluentd/config:/fluentd/etc
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+      
+  kibana:
+    build:
+      context: deploy/efk/kibana/
+    volumes:
+      - ./deploy/efk/kibana/config/:/usr/share/kibana/config:ro 
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
