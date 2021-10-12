@@ -1,7 +1,7 @@
-import {Contact} from "types/contact";
-import {useHttp} from "hooks/use-http";
-import {cleanObject} from "utils";
-import {QueryKey, useMutation, useQuery} from "react-query";
+import { Contact } from "types/contact";
+import { useHttp } from "hooks/use-http";
+import { cleanObject } from "utils";
+import { QueryKey, useMutation, useQuery} from "react-query";
 
 
 export const useGroups = (param?: Partial<Contact>) => {
