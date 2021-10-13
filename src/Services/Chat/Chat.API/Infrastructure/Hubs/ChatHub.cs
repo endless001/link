@@ -8,11 +8,21 @@ namespace Chat.API.Infrastructure.Hubs
     [Authorize]
     public class ChatHub: Hub
     {
-   
+
+        public override Task OnConnectedAsync()
+        {
+            return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            return base.OnDisconnectedAsync(exception);
+        }
+
 
         public Task SendMessageToUser(string userId, string message)
         {
-            return Clients.User(userId).SendAsync("ReceiveMessage", message);
+            return Clients.User(userId).SendAsync("ReceiveMessage", Context.User.Identity.Name,message);
         }
 
         public Task SendMessageToGroup(string message)
