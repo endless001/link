@@ -12,6 +12,9 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Chat.API.Configuration;
+using Chat.API.Data;
+using StackExchange.Redis;
 
 namespace Chat.API
 {
@@ -27,10 +30,15 @@ namespace Chat.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR()
-                .AddStackExchangeRedis(options =>
-                {
 
+            services.Configure<MongoConnection>(Configuration.GetSection("MongoConnection"));
+            services.AddScoped<ChatDbContext>();
+            services.AddScoped<IRecordRepository, RecordRepository>();
+
+            services.AddSignalR()
+                .AddStackExchangeRedis(Configuration.GetValue<string>("Redis:ConnectionString"), options =>
+                {
+                    options.Configuration.ChannelPrefix = "Chat";
                 });
             services.AddControllers();
             services.AddCustomAuthentication(Configuration);
@@ -41,6 +49,7 @@ namespace Chat.API
         {
           
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
