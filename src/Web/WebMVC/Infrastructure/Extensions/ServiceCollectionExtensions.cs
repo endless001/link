@@ -15,7 +15,7 @@ namespace WebMVC.Infrastructure.Extensions
             var identityUrl = configuration.GetValue<string>("IdentityUrl");
             var callBackUrl = configuration.GetValue<string>("CallBackUrl");
             var sessionCookieLifetime = configuration.GetValue("SessionCookieLifetimeMinutes", 60);
-   
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -27,7 +27,7 @@ namespace WebMVC.Infrastructure.Extensions
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.Authority = identityUrl.ToString();
                 options.SignedOutRedirectUri = callBackUrl.ToString();
-                options.ClientId = "mvc";
+                options.ClientId = "chat";
                 options.ClientSecret = "secret";
                 options.ResponseType = "code id_token";
                 options.SaveTokens = true;

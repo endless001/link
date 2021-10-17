@@ -28,8 +28,8 @@ namespace Identity.API
                 new ConfigurationDbContextSeed()
                  .SeedAsync(context, configuration)
                  .Wait();
-            });       
-          
+            });
+
             host.Run();
         }
 
@@ -64,7 +64,7 @@ namespace Identity.API
         private static (int httpPort, int grpcPort) GetDefinedPorts(IConfiguration config)
         {
             var grpcPort = config.GetValue("GRPC_PORT", 443);
-            var port = config.GetValue("PORT", 80);
+            var port = config.GetValue("PORT", 5000);
             return (port, grpcPort);
         }
 
