@@ -13,7 +13,7 @@ const Settings=()=>{
             <div className="mb-4 profile-user">
               <img src={avatar} className="rounded-circle avatar-lg img-thumbnail" alt=""/>
                 <button type="button" className="btn bg-light avatar-xs p-0 rounded-circle profile-photo-edit">
-                  <i className="ri-pencil-fill"></i>
+                  <i className="ri-pencil-fill"/>
                 </button>
             </div>
 
@@ -21,7 +21,7 @@ const Settings=()=>{
             <div className="dropdown d-inline-block mb-1">
               <a className="text-muted dropdown-toggle pb-1 d-block" href="#" role="button" data-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false">
-                Available <i className="mdi mdi-chevron-down"></i>
+                Available <i className="mdi mdi-chevron-down"/>
               </a>
 
               <div className="dropdown-menu">
@@ -92,7 +92,7 @@ const Settings=()=>{
                             <div className="card-header" id="profile-setting-privacyheading">
                               <h5 className="font-size-14 m-0">
                                 Privacy
-                                <i className="mdi mdi-chevron-up float-right accor-plus-icon"></i>
+                                <i className="mdi mdi-chevron-up float-right accor-plus-icon"/>
                               </h5>
                             </div>
                           </a>
@@ -167,7 +167,7 @@ const Settings=()=>{
                                       <input type="checkbox" className="custom-control-input"
                                              id="privacy-readreceiptSwitch" />
                                         <label className="custom-control-label"
-                                               htmlFor="privacy-readreceiptSwitch"></label>
+  htmlFor="privacy-readreceiptSwitch"/>
                                     </div>
                                   </div>
                                 </div>
