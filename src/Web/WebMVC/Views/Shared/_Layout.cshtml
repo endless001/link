@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebMVC</title>
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- magnific-popup css -->
+     <link href="~/lib/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css" />
+
+       <!-- owl.carousel css -->
+        <link rel="stylesheet" href="~/lib/owl.carousel/assets/owl.carousel.min.css">
+
+        <link rel="stylesheet" href="~/lib/owl.carousel/assets/owl.theme.default.min.css">
+
+        <!-- Bootstrap Css -->
+        <link href="~/css/bootstrap-dark.min.css" id="bootstrap-dark-style" rel="stylesheet" type="text/css" />
+        <link href="~/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="~/css/app-dark.min.css" id="app-dark-style" rel="stylesheet" type="text/css" />
+        <link href="~/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" /> 
+
+
+
+</head>
+<body>
+  <div class="layout-wrapper d-lg-flex">
+    @await Component.InvokeAsync("Menu",new {})
+    @RenderBody()
+    @await Component.InvokeAsync("Chat",new {})
+    </div>
+   <!-- JAVASCRIPT -->
+        <script src="~/lib/jquery/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="~/lib/simplebar/simplebar.min.js"></script>
+        <script src="~/lib/node-waves/waves.min.js"></script>
+
+        <!-- Magnific Popup-->
+        <script src="~/lib/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+        <!-- owl.carousel js -->
+        <script src="~/lib/owl.carousel/owl.carousel.min.js"></script>
+
+        <!-- page init -->
+        <script src="~/js/pages/index.init.js"></script>
+
+        <script src="~/js/app.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

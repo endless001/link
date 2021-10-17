@@ -5,7 +5,6 @@ using StackExchange.Redis;
 using Upload.API.Configuration;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
