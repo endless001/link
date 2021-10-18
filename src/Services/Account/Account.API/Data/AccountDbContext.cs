@@ -13,12 +13,12 @@ namespace Account.API.Data
     public class AccountDbContext: DbContext
     {
         private readonly IEncryptionProvider _encryptionProvider;
-        private readonly byte[] _encryptionKey = new byte[1];
-        private readonly byte[] _encryptionIV = new byte[1];
+        private readonly byte[] _encryptionKey = AesProvider.GenerateKey(AesKeySize.AES256Bits).Key;
+
         public AccountDbContext(DbContextOptions<AccountDbContext> options)
              : base(options)
         {
-            _encryptionProvider = new AesProvider(_encryptionKey, _encryptionIV);
+            _encryptionProvider = new AesProvider(_encryptionKey);
 
         }
         protected override void OnModelCreating(ModelBuilder builder)

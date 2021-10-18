@@ -28,6 +28,7 @@ namespace Account.API.Services
                 account = new AccountModel()
                 {
                     Phone = phone,
+                    Password="123456"
                 };
                 _accountDbContext.Add(account);
                 await _accountDbContext.SaveChangesAsync();
