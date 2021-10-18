@@ -21,14 +21,14 @@
             <span class="glyphicon glyphicon-exclamation-sign"></span>
         }
     </label>
-    @if (Model.Required)
-    {
-        <span><em>(required)</em></span>
-    }
-    @if (Model.Description != null)
-    {
-        <div class="consent-description">
-            <label for="scopes_@Model.Value">@Model.Description</label>
-        </div>
-    }
+        @if (Model.Required)
+        {
+             <span><em>(required)</em></span>
+        }
+        @if (Model.Description != null)
+        {
+            <div class="consent-description">
+               <label for="scopes_@Model.Value">@Model.Description</label>
+            </div>
+        }     
 </li>
