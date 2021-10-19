@@ -16,7 +16,8 @@ namespace Identity.API.Data
         {
             var clientUrls = new Dictionary<string, string>();
 
-            clientUrls.Add("Chat", configuration.GetValue<string>("ChatClient"));
+            clientUrls.Add("Mvc", configuration.GetValue<string>("MvcClient"));
+            clientUrls.Add("Spa", configuration.GetValue<string>("SpaClient"));
 
             if (!context.Clients.Any())
             {

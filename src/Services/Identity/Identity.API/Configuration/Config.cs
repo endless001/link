@@ -40,66 +40,104 @@ namespace Identity.API.Configuration
         public static IEnumerable<Client> GetClients(Dictionary<string, string> clientsUrl)
         {
             return new List<Client>
-        {
-        new Client()
-        {
+            {
+                new Client
+                 {
+                   ClientId = "api",
+                   ClientName = "Api Client",
+                   ClientSecrets = new List<Secret>
+                   {
+                     new Secret("secret".Sha256())
+                   },
+                   AllowedGrantTypes = {GrantType.ResourceOwnerPassword, "sms"},
+                   AllowedScopes = new List<string>
+                   {
+                     IdentityServerConstants.StandardScopes.OpenId,
+                     IdentityServerConstants.StandardScopes.Profile,
+                     IdentityServerConstants.StandardScopes.OfflineAccess,
+                     "account",
+                     "contact",
+                     "download",
+                     "upload",
+                   },
+                   AllowOfflineAccess = true
+                 },
+                 new Client
+                 {
+                   ClientId = "spa",
+                   ClientName = "SPA Client",
+                   ClientSecrets = new List<Secret>
+                   {
+                     new Secret("secret".Sha256())
+                   },
+                   AllowedGrantTypes = GrantTypes.Implicit,
+                   AllowAccessTokensViaBrowser = false,
+                   RequireConsent = true,
+                   AllowOfflineAccess = true,
+                   AlwaysIncludeUserClaimsInIdToken = true,
+                   RedirectUris = new List<string>
+                   {
+                     $"{clientsUrl["Spa"]}/"
+                   },
+                   PostLogoutRedirectUris = new List<string>
+                   {
+                     $"{clientsUrl["Spa"]}/"
+                   },
+                   AllowedCorsOrigins = new List<string>
+                   {
+                        $"{clientsUrl["Spa"]}"
+                   },
+                   AllowedScopes = new List<string>
+                   {
+                     IdentityServerConstants.StandardScopes.OpenId,
+                     IdentityServerConstants.StandardScopes.Profile,
+                     IdentityServerConstants.StandardScopes.OfflineAccess,
+                     "account",
+                     "contact",
+                     "download",
+                     "upload",
+                   },
 
-          ClientId = "api",
-          ClientName = "Api Client",
-          ClientSecrets = new List<Secret>
-          {
-            new Secret("secret".Sha256())
-          },
-          AllowedGrantTypes = {GrantType.ResourceOwnerPassword, "sms"},
-          AllowedScopes = new List<string>
-          {
-            IdentityServerConstants.StandardScopes.OpenId,
-            IdentityServerConstants.StandardScopes.Profile,
-            IdentityServerConstants.StandardScopes.OfflineAccess,
-            "account",
-            "contact",
-            "download",
-            "upload",
-          },
-          AllowOfflineAccess = true
-        },
-        new Client
-        {
-          ClientId = "chat",
-          ClientName = "Chat Client",
-          ClientSecrets = new List<Secret>
-          {
-            new Secret("secret".Sha256())
-          },
-          ClientUri = $"{clientsUrl["Chat"]}",
-          AllowedGrantTypes = GrantTypes.Implicit,
-          AllowAccessTokensViaBrowser = false,
-          RequireConsent = true,
-          AllowOfflineAccess = true,
-          AlwaysIncludeUserClaimsInIdToken = true,
-          RedirectUris = new List<string>
-          {
-            "http://127.0.0.1:3000/callback"
-          },
-          PostLogoutRedirectUris = new List<string>
-          {
-            "http://127.0.0.1:3000/index.html"
-          },
-          AllowedScopes = new List<string>
-          {
-            IdentityServerConstants.StandardScopes.OpenId,
-            IdentityServerConstants.StandardScopes.Profile,
-            IdentityServerConstants.StandardScopes.OfflineAccess,
-            "account",
-            "contact",
-            "download",
-            "upload",
-          },
-          AllowedCorsOrigins = new List<string> {"http://127.0.0.1:3000"},
-          AccessTokenLifetime = 60 * 60 * 2, // 2 hours
-          IdentityTokenLifetime = 60 * 60 * 2 // 2 hours
-        }
-        };
-     }
+                   AccessTokenLifetime = 60 * 60 * 2, // 2 hours
+                   IdentityTokenLifetime = 60 * 60 * 2 // 2 hours
+                 },
+                new Client
+                {
+                    ClientId = "mvc",
+                    ClientName = "MVC Client",
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    ClientUri = $"{clientsUrl["Mvc"]}",
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowAccessTokensViaBrowser = false,
+                    RequireConsent = false,
+                    AllowOfflineAccess = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    RequirePkce = false,
+                    RedirectUris = new List<string>
+                    {
+                        $"{clientsUrl["Mvc"]}/signin-oidc"
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        $"{clientsUrl["Mvc"]}/signout-callback-oidc"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                       "account",
+                       "contact",
+                       "download",
+                       "upload",
+                    },
+                    AccessTokenLifetime = 60*60*2, // 2 hours
+                    IdentityTokenLifetime= 60*60*2 // 2 hours
+                }
+                }; 
+    } 
     }
 }
