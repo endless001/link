@@ -86,6 +86,16 @@ namespace Identity.API.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+              
+            }
+            return View();
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
