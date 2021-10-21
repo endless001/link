@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+   @await Component.InvokeAsync("Menu",new {})
             <!-- start chat-leftsidebar -->
             <div class="chat-leftsidebar mr-lg-1">
 
@@ -62,4 +62,4 @@
             </div>
             <!-- end chat-leftsidebar -->
 
-    
+        @await Component.InvokeAsync("Chat",new {})

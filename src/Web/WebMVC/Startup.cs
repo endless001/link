@@ -34,16 +34,23 @@ namespace WebMVC
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute()
-                     .RequireAuthorization();
+                endpoints.MapControllerRoute("default", "{controller=Catalog}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("defaultError", "{controller=Error}/{action=Error}");
             });
         }
     }
