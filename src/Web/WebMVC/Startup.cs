@@ -42,6 +42,7 @@ namespace WebMVC
             {
                 app.UseExceptionHandler("/Error");
             }
+
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
@@ -49,8 +50,9 @@ namespace WebMVC
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("default", "{controller=Catalog}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultError", "{controller=Error}/{action=Error}");
+                endpoints.MapControllers();
             });
         }
     }
