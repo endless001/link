@@ -48,8 +48,6 @@ namespace WebMVC.Infrastructure.Extensions
             var callBackUrl = configuration.GetValue<string>("CallBackUrl");
             var sessionCookieLifetime = configuration.GetValue("SessionCookieLifetimeMinutes", 60);
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -65,7 +63,6 @@ namespace WebMVC.Infrastructure.Extensions
                    options.ClientId = "mvc";
                    options.ClientSecret = "secret";
                    options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
-
                    options.SaveTokens = true;
                    options.GetClaimsFromUserInfoEndpoint = true;
                    options.RequireHttpsMetadata = false;
@@ -73,8 +70,6 @@ namespace WebMVC.Infrastructure.Extensions
                    options.Scope.Add("profile");
                 
                });
-
-
             return services;
         }
     }

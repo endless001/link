@@ -18,6 +18,5 @@ namespace WebMVC.Infrastructure.Services
             _logger = logger;
             _remoteServiceBaseUrl = $"{_settings.Value.ContactUrl}/c/api/v1/contact/";
         }
-
     }
 }
