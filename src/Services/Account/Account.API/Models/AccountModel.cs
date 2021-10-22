@@ -15,6 +15,7 @@ namespace Account.API.Models
         public int Sex { get; set; }
         public string Tel { get; set; }
         public string Email { get; set; }
+        [Encrypted]
         public string Password { get; set; }
  
     }
