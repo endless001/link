@@ -1,6 +1,10 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using WebMVC.ViewModels;
 
 namespace WebMVC.Infrastructure.Services
 {
@@ -17,6 +21,19 @@ namespace WebMVC.Infrastructure.Services
             _settings = settings;
             _logger = logger;
             _remoteServiceBaseUrl = $"{_settings.Value.ContactUrl}/c/api/v1/contact/";
+        }
+
+        public async Task<IEnumerable<Contact>> GetContacts()
+        {
+            var uri = API.Contact.GetContactList(_remoteServiceBaseUrl);
+            var response = await _httpClient.GetStringAsync(uri);
+
+            var contacts = JsonSerializer.Deserialize<List<Contact>>(response, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return contacts;
         }
     }
 }
