@@ -12,7 +12,6 @@ namespace Account.API.Data
     public class AccountDbContext : DbContext
     {
         private readonly IEncryptionProvider _encryptionProvider;
-        private readonly byte[] _encryptionKey = new  byte[]{182,113,50 ,214,209,88 ,182,226,169,47 ,223,197,143,164,147,85 };
 
         public AccountDbContext(DbContextOptions<AccountDbContext> options)
              : base(options)
