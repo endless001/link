@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WebMVC.Controllers
 {
-    [Authorize(AuthenticationSchemes = OpenIdConnectDefaults.AuthenticationScheme)]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

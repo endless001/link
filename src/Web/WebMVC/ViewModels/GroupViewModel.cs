@@ -2,9 +2,9 @@
 
 namespace WebMVC.ViewModels
 {
-    public class Group
+    public class GroupViewModel
     {
         public string GroupName { get; set; }
-        public List<Contact> Contacts { get; set; }
+        public List<ContactViewModel> Contacts { get; set; }
     }
 }

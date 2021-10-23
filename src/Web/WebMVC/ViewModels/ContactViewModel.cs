@@ -1,6 +1,6 @@
 ﻿namespace WebMVC.ViewModels
 {
-    public class Contact
+    public class ContactViewModel
     {
         public int AccountId { get; set; }
         public string AccountName { get; set; }

@@ -6,6 +6,6 @@ namespace WebMVC.Infrastructure.Services
 {
     public interface IContactService
     {
-        Task<IEnumerable<Contact>> GetContacts();
+        Task<IEnumerable<ContactViewModel>> GetContacts();
     }
 }

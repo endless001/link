@@ -12,6 +12,6 @@ namespace Account.API.Services
         Task<AccountModel> SearchAsync(string phone);
         Task<AccountModel> SignInPasswordAsync(string accountName,string password);
         Task<bool> RegisterPhoneAsync(AccountModel accountModel);
-        Task<bool> RegisterEmailAsync(AccountModel accountEntity);
+        Task<bool> RegisterEmailAsync(AccountModel accountModel);
     }
 }

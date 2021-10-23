@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebMVC.ViewModels;
 
 namespace WebMVC.ViewComponents
 {
@@ -7,8 +9,17 @@ namespace WebMVC.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            await Task.CompletedTask;
-            return View();
+            var recentContacts = new List<ChatMessageViewModel>()
+            {
+                new ChatMessageViewModel()
+                {
+                    ContactName="lq",
+                    LastMessage="I Im lq",
+                    LastDate="15 min"
+                }
+            };
+
+            return View(recentContacts);
         }
     }
 }

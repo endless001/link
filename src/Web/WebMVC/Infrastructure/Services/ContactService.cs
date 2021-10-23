@@ -20,15 +20,15 @@ namespace WebMVC.Infrastructure.Services
             _httpClient = httpClient;
             _settings = settings;
             _logger = logger;
-            _remoteServiceBaseUrl = $"{_settings.Value.ContactUrl}/c/api/v1/contact/";
+            _remoteServiceBaseUrl = $"{_settings.Value.ContactUrl}/api/v1/contact/";
         }
 
-        public async Task<IEnumerable<Contact>> GetContacts()
+        public async Task<IEnumerable<ContactViewModel>> GetContacts()
         {
             var uri = API.Contact.GetContactList(_remoteServiceBaseUrl);
             var response = await _httpClient.GetStringAsync(uri);
 
-            var contacts = JsonSerializer.Deserialize<List<Contact>>(response, new JsonSerializerOptions
+            var contacts = JsonSerializer.Deserialize<List<ContactViewModel>>(response, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
