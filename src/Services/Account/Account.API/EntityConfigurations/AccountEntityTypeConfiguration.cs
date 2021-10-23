@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Account.API.Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore.DataEncryption;
+using Account.API.Infrastructure.Providers;
 
 namespace Account.API.EntityConfigurations
 {
@@ -18,8 +18,7 @@ namespace Account.API.EntityConfigurations
         {
             builder.ToTable("account");
             builder.HasKey(a => a.AccountId);
-
-            builder.Property(p => p.Password).IsEncrypted(_encryptionProvider);
+            builder.Property(p => p.Password).Encrypted(_encryptionProvider);
         }
     }
 }
