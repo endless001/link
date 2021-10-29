@@ -16,14 +16,14 @@ namespace Upload.API.Infrastructure.Services
     public class OssUploadService : IUploadService
     {
         private readonly OssClient _ossClient;
-        private readonly OssConfig _ossConfig;
+        private readonly StorageConfig _storageConfig;
 
         private readonly ConnectionMultiplexer _redis;
         private readonly IDatabase _database;
-        public OssUploadService(OssClient ossClient, ConnectionMultiplexer redis, IOptions<OssConfig> options)
+        public OssUploadService(OssClient ossClient, ConnectionMultiplexer redis, IOptions<StorageConfig> options)
         {
             _ossClient = ossClient;
-            _ossConfig = options.Value;
+            _storageConfig = options.Value;
             _redis = redis;
             _database = redis.GetDatabase();
         }
@@ -31,12 +31,12 @@ namespace Upload.API.Infrastructure.Services
         public async Task<bool> CompleteMultipartUpload(string objectName, string uploadId)
         {
 
-            if (!BucketExist(_ossConfig.BucketNameStorage))
+            if (!BucketExist(_storageConfig.BucketStorageName))
             {
-                CreateBucket(_ossConfig.BucketNameStorage);
+                CreateBucket(_storageConfig.BucketStorageName);
             }
 
-            var completeMultipartUploadRequest = new CompleteMultipartUploadRequest(_ossConfig.BucketNameStorage, objectName, uploadId);
+            var completeMultipartUploadRequest = new CompleteMultipartUploadRequest(_storageConfig.BucketStorageName, objectName, uploadId);
             var value = await _database.ListRangeAsync(uploadId);
             var partTags = value.Select(v => JsonSerializer.Deserialize<PartTag>(Encoding.UTF8.GetString(v)));
             completeMultipartUploadRequest.PartETags.ToList().AddRange(
@@ -49,29 +49,29 @@ namespace Upload.API.Infrastructure.Services
 
         public Task<string> GetFileHash(string objectName)
         {
-            var result = _ossClient.GetObjectMetadata(_ossConfig.BucketNameStorage, objectName);
+            var result = _ossClient.GetObjectMetadata(_storageConfig.BucketStorageName, objectName);
             return Task.FromResult(result.ETag);
         }
 
         public Task<string> InitiateMultipartUpload(string objectName)
         {
-            if (!BucketExist(_ossConfig.BucketNameUserPhoto))
+            if (!BucketExist(_storageConfig.BucketUserPhotoName))
             {
-                CreateBucket(_ossConfig.BucketNameStorage);
+                CreateBucket(_storageConfig.BucketStorageName);
             }
-            var request = new InitiateMultipartUploadRequest(_ossConfig.BucketNameStorage, objectName);
+            var request = new InitiateMultipartUploadRequest(_storageConfig.BucketStorageName, objectName);
             var result = _ossClient.InitiateMultipartUpload(request);
             return Task.FromResult(result.UploadId);
         }
 
         public async Task<bool> MultipartUpload(string objectName, string uploadId, Stream content, int index, long size)
         {
-            if (!BucketExist(_ossConfig.BucketNameStorage))
+            if (!BucketExist(_storageConfig.BucketStorageName))
             {
-                CreateBucket(_ossConfig.BucketNameStorage);
+                CreateBucket(_storageConfig.BucketStorageName);
             }
 
-            var request = new UploadPartRequest(_ossConfig.BucketNameStorage, objectName, uploadId)
+            var request = new UploadPartRequest(_storageConfig.BucketStorageName, objectName, uploadId)
             {
                 InputStream = content,
                 PartSize = size,
@@ -85,24 +85,24 @@ namespace Upload.API.Infrastructure.Services
 
         public async Task<bool> Upload(string objectName, Stream content)
         {
-            if (!BucketExist(_ossConfig.BucketNameStorage))
+            if (!BucketExist(_storageConfig.BucketStorageName))
             {
-                CreateBucket(_ossConfig.BucketNameStorage);
+                CreateBucket(_storageConfig.BucketStorageName);
             }
             var result = await Task.Factory.FromAsync(_ossClient.BeginPutObject, _ossClient.EndPutObject,
-                _ossConfig.BucketNameStorage, objectName, content, string.Empty);
+                _storageConfig.BucketStorageName, objectName, content, string.Empty);
             return true;
         }
 
         public async Task<bool> UploadUserPhoto(string objectName, Stream content)
         {
-            if (!BucketExist(_ossConfig.BucketNameUserPhoto))
+            if (!BucketExist(_storageConfig.BucketUserPhotoName))
             {
-                CreateBucket(_ossConfig.BucketNameUserPhoto);
+                CreateBucket(_storageConfig.BucketUserPhotoName);
             }
 
             var result = await Task.Factory.FromAsync(_ossClient.BeginPutObject, _ossClient.EndPutObject,
-                 _ossConfig.BucketNameUserPhoto, objectName, content, string.Empty);
+                 _storageConfig.BucketUserPhotoName, objectName, content, string.Empty);
             return true;
         }
 

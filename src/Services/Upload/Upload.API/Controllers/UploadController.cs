@@ -21,7 +21,7 @@ namespace Upload.API.Controllers
         public UploadController(ILogger<UploadController> logger, Func<string, IUploadService> funcFactory)
         {
             _logger = logger;
-            _uploadService = funcFactory("OSS");
+            _uploadService = funcFactory("Minio");
         }
      
         [HttpPost("uploaduserphoto")]

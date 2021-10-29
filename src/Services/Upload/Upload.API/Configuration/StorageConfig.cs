@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Upload.API.Configuration
 {
-    public class OssConfig
+    public class StorageConfig
     {
         public string Endpoint { get; set; }
         public string AccessKeyId { get; set; }
         public string AccessKeySecret { get; set; }
-        public string BucketNameStorage { get; set; }
-        public string BucketNameUserPhoto { get; set; }
+        public string BucketStorageName { get; set; }
+        public string BucketUserPhotoName { get; set; }
     }
 }

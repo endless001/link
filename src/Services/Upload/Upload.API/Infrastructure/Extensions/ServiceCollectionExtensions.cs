@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Upload.API.Infrastructure.Services;
 using Microsoft.IdentityModel.Tokens;
+using Minio;
 
 namespace Upload.API.Infrastructure.Extensions
 {
@@ -48,14 +49,20 @@ namespace Upload.API.Infrastructure.Extensions
         {
             services.AddSingleton(sp =>
             {
-                var config = configuration.GetSection("OssConfig").Get<OssConfig>();
+                var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
                 return new OssClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
             });
 
             services.AddSingleton(sp =>
             {
-                var config = configuration.GetSection("OssConfig").Get<OssConfig>();
+                var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
                 return new AmazonS3Client(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
+            });
+
+            services.AddSingleton(sp =>
+            {
+                var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
+                return new MinioClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
             });
             return services;
         }
@@ -63,6 +70,7 @@ namespace Upload.API.Infrastructure.Extensions
         {
             services.AddSingleton<IUploadService, OssUploadService>();
             services.AddSingleton<IUploadService, S3UploadService>();
+            services.AddSingleton<IUploadService, MinioUploadService>();
             return services;
         }
         
@@ -71,7 +79,8 @@ namespace Upload.API.Infrastructure.Extensions
             Dictionary<string, Func<IServiceProvider, IUploadService>> factory = new Dictionary<string, Func<IServiceProvider, IUploadService>>
             {
                 { "S3" ,(provider) => provider.GetService<S3UploadService>() },
-                { "OSS" ,(provider) => provider.GetService<OssUploadService>() }
+                { "OSS" ,(provider) => provider.GetService<OssUploadService>() },
+                { "Minio" ,(provider) => provider.GetService<MinioUploadService>() }
             };
 
             services.AddSingleton(provider =>

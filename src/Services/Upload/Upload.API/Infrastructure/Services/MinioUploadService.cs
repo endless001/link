@@ -1,7 +1,9 @@
-﻿using Minio;
+﻿using Microsoft.Extensions.Options;
+using Minio;
 using StackExchange.Redis;
 using System.IO;
 using System.Threading.Tasks;
+using Upload.API.Configuration;
 
 namespace Upload.API.Infrastructure.Services
 {
@@ -10,12 +12,13 @@ namespace Upload.API.Infrastructure.Services
         private readonly MinioClient _client;
         private readonly ConnectionMultiplexer _redis;
         private readonly IDatabase _database;
-
-        public MinioUploadService(MinioClient client, ConnectionMultiplexer redis)
+        private readonly StorageConfig _storageConfig;
+        public MinioUploadService(MinioClient client, ConnectionMultiplexer redis, IOptions<StorageConfig> options)
         {
             _client = client; 
             _redis = redis;
             _database = redis.GetDatabase();
+            _storageConfig = options.Value;
 
         }
         public Task<bool> CompleteMultipartUpload(string objectName, string uploadId)
@@ -23,7 +26,7 @@ namespace Upload.API.Infrastructure.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<string> GetFileHash(string objectName)
+        public  Task<string> GetFileHash(string objectName)
         {
             throw new System.NotImplementedException();
         }
@@ -40,23 +43,23 @@ namespace Upload.API.Infrastructure.Services
 
         public async  Task<bool> Upload(string objectName, Stream content)
         {
-            if (!await _client.BucketExistsAsync(""))
+            if (!await _client.BucketExistsAsync(_storageConfig.BucketStorageName))
             {
-                await _client.MakeBucketAsync("");
+                await _client.MakeBucketAsync(_storageConfig.BucketStorageName);
             }
 
-            await _client.PutObjectAsync("", objectName, content, content.Length);
+            await _client.PutObjectAsync(_storageConfig.BucketStorageName, objectName, content, content.Length);
             return true;
         }
 
         public async Task<bool> UploadUserPhoto(string objectName, Stream content)
         {
-            if (!await _client.BucketExistsAsync(""))
+            if (!await _client.BucketExistsAsync(_storageConfig.BucketUserPhotoName))
             {
-                await _client.MakeBucketAsync("");
+                await _client.MakeBucketAsync(_storageConfig.BucketUserPhotoName);
             }
 
-            await  _client.PutObjectAsync("", objectName, content, content.Length);
+            await  _client.PutObjectAsync(_storageConfig.BucketUserPhotoName, objectName, content, content.Length);
             return true;
         }
       
