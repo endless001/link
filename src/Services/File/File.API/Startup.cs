@@ -76,20 +76,6 @@ namespace File.API
             {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers().RequireAuthorization("ApiScope");
-                endpoints.MapGet("/_proto/", async ctx =>
-                {
-                    ctx.Response.ContentType = "text/plain";
-                    await using var fs = new FileStream(Path.Combine(env.ContentRootPath, "Proto", "file.proto"), FileMode.Open, FileAccess.Read);
-                    using var sr = new StreamReader(fs);
-                    while (!sr.EndOfStream)
-                    {
-                        var line = await sr.ReadLineAsync();
-                        if (line != "/* >>" || line != "<< */")
-                        {
-                            await ctx.Response.WriteAsync(line ?? string.Empty);
-                        }
-                    }
-                });
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
                 {
                     Predicate = _ => true,
