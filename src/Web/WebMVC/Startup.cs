@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using WebMVC.Infrastructure.Extensions;
+using WebMVC.Infrastructure.Services;
+using WebMVC.ViewModels;
 
 namespace WebMVC
 {
@@ -27,6 +29,7 @@ namespace WebMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddTransient<IIdentityParser<AccountModel>, IdentityParser>();
             services.AddCustomAuthentication(Configuration);
         }
 
@@ -56,4 +59,5 @@ namespace WebMVC
             });
         }
     }
+     
 }

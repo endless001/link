@@ -9,6 +9,7 @@ using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -103,6 +104,7 @@ namespace Identity.API.Controllers
             if (ModelState.IsValid)
             {
                 var account = await _accountService.SignInPasswordAsync(model.AccountName, model.Password);
+                var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
                 if (account != null)
                 {
                     var tokenLifetime = _configuration.GetValue("TokenLifetimeMinutes", 120);
@@ -126,19 +128,23 @@ namespace Identity.API.Controllers
                     var claims = new List<Claim>
                     {
                       new Claim("sub",account.AccountId.ToString()),
+                      new Claim("accountId",account.AccountId.ToString()),
                       new Claim("accountName",account.AccountName??string.Empty),
                       new Claim("avatar",account.Avatar??string.Empty),
                       new Claim("phone",account.Phone??string.Empty),
+                      new Claim("location",string.Empty),
                       new Claim("email",account.Email??string.Empty)
                     };
 
                     var identity = new ClaimsIdentity(claims, "Passport");
                     var principal = new ClaimsPrincipal(identity);
+
                     await HttpContext.SignInAsync(principal, props);
 
                     return Redirect(_interaction.IsValidReturnUrl(model.ReturnUrl) ? model.ReturnUrl : "~/");
                 }
 
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.AccountName, "invalid credentials", clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, "Invalid username or password.");
 
             }

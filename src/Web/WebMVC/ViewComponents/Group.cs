@@ -25,8 +25,8 @@ namespace WebMVC.ViewComponents
 
             var contacts = BuildContacts(new List<ContactViewModel> {
                 new ContactViewModel{ AccountName = "lq" },
-                new ContactViewModel{AccountName="lq1" },
-                new ContactViewModel{AccountName="wq1" }
+                new ContactViewModel{ AccountName = "lq1" },
+                new ContactViewModel{ AccountName = "wq1" }
                 });
 
             ViewBag.Contacts = contacts;
