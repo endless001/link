@@ -47,21 +47,20 @@ namespace Upload.API.Infrastructure.Extensions
 
         public static IServiceCollection AddObjectStorageClient(this IServiceCollection services, IConfiguration configuration)
         {
+
+            var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
             services.AddSingleton(sp =>
             {
-                var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
                 return new OssClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
             });
 
             services.AddSingleton(sp =>
             {
-                var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
                 return new AmazonS3Client(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
             });
 
             services.AddSingleton(sp =>
             {
-                var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
                 return new MinioClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
             });
             return services;
@@ -85,7 +84,7 @@ namespace Upload.API.Infrastructure.Extensions
 
             services.AddSingleton(provider =>
             {
-                Func<string, IUploadService> func = n => factory[n].Invoke(provider);
+                Func<string, IUploadService> func = n => factory[n](provider);
                 return func;
             });
             return services;

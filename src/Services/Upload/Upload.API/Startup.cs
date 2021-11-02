@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Upload.API.Infrastructure.Extensions;
 using Upload.API.Infrastructure.Filters;
 using Upload.API.Infrastructure.Services;
 
@@ -39,6 +40,10 @@ namespace Upload.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Upload.API", Version = "v1" });
             });
+            services.AddCustomAuthentication(Configuration).
+                AddObjectStorageClient(Configuration).
+                AddObjectStorageClient(Configuration).
+                AddObjectStorageFactory(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +55,7 @@ namespace Upload.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Upload.API v1"));
             }
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -57,8 +63,7 @@ namespace Upload.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers()
-                .RequireAuthorization("ApiScope");
+                endpoints.MapControllers();
             });
         }
     }
