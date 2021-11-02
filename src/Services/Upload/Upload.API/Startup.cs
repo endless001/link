@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 using Upload.API.Infrastructure.Extensions;
 using Upload.API.Infrastructure.Filters;
 using Upload.API.Infrastructure.Services;
@@ -40,8 +41,16 @@ namespace Upload.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Upload.API", Version = "v1" });
             });
+            services.AddSingleton(sp =>
+            {
+                var configuration = ConfigurationOptions.Parse(Configuration.GetValue<string>("Redis:ConnectionString"), true);
+                configuration.ResolveDns = true;
+                return ConnectionMultiplexer.Connect(configuration);
+            });
+
+
             services.AddCustomAuthentication(Configuration).
-                AddObjectStorageClient(Configuration).
+                AddObjectStorage(Configuration).
                 AddObjectStorageClient(Configuration).
                 AddObjectStorageFactory(Configuration);
         }

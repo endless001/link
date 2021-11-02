@@ -49,6 +49,8 @@ namespace Upload.API.Infrastructure.Extensions
         {
 
             var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
+            services.Configure<StorageConfig>(options => configuration.GetSection("StorageConfig").Bind(options));
+
             services.AddSingleton(sp =>
             {
                 return new OssClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
@@ -67,8 +69,8 @@ namespace Upload.API.Infrastructure.Extensions
         }
         public static IServiceCollection AddObjectStorage(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IUploadService, OssUploadService>();
             services.AddSingleton<IUploadService, S3UploadService>();
+            services.AddSingleton<IUploadService, OssUploadService>();
             services.AddSingleton<IUploadService, MinioUploadService>();
             return services;
         }
@@ -77,9 +79,9 @@ namespace Upload.API.Infrastructure.Extensions
         {
             Dictionary<string, Func<IServiceProvider, IUploadService>> factory = new Dictionary<string, Func<IServiceProvider, IUploadService>>
             {
-                { "S3" ,(provider) => provider.GetService<S3UploadService>() },
-                { "OSS" ,(provider) => provider.GetService<OssUploadService>() },
-                { "Minio" ,(provider) => provider.GetService<MinioUploadService>() }
+                {"S3" ,(provider) => provider.GetService<S3UploadService>() },
+                {"OSS" ,(provider) => provider.GetService<OssUploadService>() },
+                {"Minio" ,(provider) => provider.GetService<MinioUploadService>() }
             };
 
             services.AddSingleton(provider =>
