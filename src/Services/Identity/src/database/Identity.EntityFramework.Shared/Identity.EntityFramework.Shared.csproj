@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="IdentityServer4.EntityFramework.Storage" Version="4.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Identity.EntityFramework\Identity.EntityFramework.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore, Version=6.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>C:\Users\zt18274\.nuget\packages\microsoft.aspnetcore.dataprotection.entityframeworkcore\6.0.1\lib\net6.0\Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

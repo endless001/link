@@ -1,0 +1,10 @@
+﻿using Identity.BusinessLogic.Dtos.Log;
+
+namespace Identity.BusinessLogic.Services;
+
+public interface ILogService
+{
+    Task<LogsDto> GetLogsAsync(string search, int page = 1, int pageSize = 10);
+
+    Task DeleteLogsOlderThanAsync(DateTime deleteOlderThan);
+}

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.16.0-rc1" />
+	<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.37.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.37.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
+	  <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="Polly" Version="7.2.2" />
+	  <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3" />
+	  <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\database\Identity.EntityFramework.MySql\Identity.EntityFramework.MySql.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+	<Protobuf Include="Proto\account.proto" GrpcServices="Client" />
+	<Protobuf Include="Proto\message.proto" GrpcServices="Client" />
+  </ItemGroup>
+</Project>
