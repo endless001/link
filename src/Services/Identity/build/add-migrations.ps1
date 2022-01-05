@@ -1,25 +1,23 @@
 param([string] $migration = 'DbInit', [string] $migrationProviderName = 'All', [string] $targetContext = 'All')
-$projectName = "Skoruba.IdentityServer4";
+$projectName = "Identity";
 $currentPath = Get-Location
-Set-Location "../src/$projectName.Admin"
+Set-Location "../src/generate/$projectName.Migration.Generate"
 Copy-Item appsettings.json -Destination appsettings-backup.json
 $settings = Get-Content appsettings.json -raw
 
 #Initialze db context and define the target directory
 $targetContexts = @{ 
-    AdminIdentityDbContext                = "Migrations\Identity"
     AdminLogDbContext                     = "Migrations\Logging";
     IdentityServerConfigurationDbContext  = "Migrations\IdentityServerConfiguration";
     IdentityServerPersistedGrantDbContext = "Migrations\IdentityServerGrants";
-    AdminAuditLogDbContext                = "Migrations\AuditLogging";
     IdentityServerDataProtectionDbContext = "Migrations\DataProtection";
 }
 
 #Initialize the db providers and it's respective projects
 $dpProviders = @{
-    SqlServer  = "..\..\src\$projectName.Admin.EntityFramework.SqlServer\$projectName.Admin.EntityFramework.SqlServer.csproj";
-    PostgreSQL = "..\..\src\$projectName.Admin.EntityFramework.PostgreSQL\$projectName.Admin.EntityFramework.PostgreSQL.csproj";
-    MySql      = "..\..\src\$projectName.Admin.EntityFramework.MySql\$projectName.Admin.EntityFramework.MySql.csproj";
+    SqlServer  = "..\..\src\database\$projectName.EntityFramework.SqlServer\$projectName.EntityFramework.SqlServer.csproj";
+    PostgreSQL = "..\..\src\database\$projectName.EntityFramework.PostgreSQL\$projectName.EntityFramework.PostgreSQL.csproj";
+    MySql      = "..\..\src\database\$projectName.EntityFramework.MySql\$projectName.EntityFramework.MySql.csproj";
 }
 
 #Fix issue when the tools is not installed and the nuget package does not work see https://github.com/MicrosoftDocs/azure-docs/issues/40048

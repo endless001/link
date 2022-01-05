@@ -1,71 +1,152 @@
-﻿using Identity.Shared.Models;
+﻿using System.Linq.Expressions;
+using Identity.EntityFramework.DbContexts;
+using Identity.Shared.Enums;
+using Identity.Shared.Extensions;
+using Identity.Shared.Models;
 using IdentityServer4.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.EntityFramework.Repositories;
 
 public class IdentityResourceRepository<TDbContext> : IIdentityResourceRepository
-    where TDbContext : DbContext, IAdminConfigurationDbContext
+    where TDbContext : DbContext, IIdentityConfigurationDbContext
 {
-    public Task<PagedList<IdentityResource>> GetIdentityResourcesAsync(string search, int page = 1, int pageSize = 10)
+    
+    
+    protected readonly TDbContext DbContext;
+    
+    public IdentityResourceRepository(TDbContext dbContext)
     {
-        throw new NotImplementedException();
+        DbContext = dbContext;
+    }
+
+    public bool AutoSaveChanges { get; set; } = true;
+
+    public async Task<PagedList<IdentityResource>> GetIdentityResourcesAsync(string search, int page = 1, int pageSize = 10)
+    {
+        var pagedList = new PagedList<IdentityResource>();
+        Expression<Func<IdentityResource, bool>> searchCondition = x => x.Name.Contains(search);
+        var identityResources = await DbContext.IdentityResources.WhereIf(!string.IsNullOrEmpty(search), searchCondition).PageBy(x => x.Name, page, pageSize).ToListAsync();
+
+        pagedList.Data.AddRange(identityResources);
+        pagedList.TotalCount = await DbContext.IdentityResources.WhereIf(!string.IsNullOrEmpty(search), searchCondition).CountAsync();
+        pagedList.PageSize = pageSize;
+
+        return pagedList;
     }
 
     public Task<IdentityResource> GetIdentityResourceAsync(int identityResourceId)
     {
-        throw new NotImplementedException();
+        return DbContext.IdentityResources
+            .Include(x => x.UserClaims)
+            .Where(x => x.Id == identityResourceId)
+            .AsNoTracking()
+            .SingleOrDefaultAsync();
     }
 
-    public Task<bool> CanInsertIdentityResourceAsync(IdentityResource identityResource)
+    public async Task<bool> CanInsertIdentityResourceAsync(IdentityResource identityResource)
     {
-        throw new NotImplementedException();
+        if (identityResource.Id == 0)
+        {
+            var existsWithSameName = await DbContext.IdentityResources.Where(x => x.Name == identityResource.Name).SingleOrDefaultAsync();
+            return existsWithSameName == null;
+        }
+        else
+        {
+            var existsWithSameName = await DbContext.IdentityResources.Where(x => x.Name == identityResource.Name && x.Id != identityResource.Id).SingleOrDefaultAsync();
+            return existsWithSameName == null;
+        }
     }
 
-    public Task<int> AddIdentityResourceAsync(IdentityResource identityResource)
+    public async Task<int> AddIdentityResourceAsync(IdentityResource identityResource)
     {
-        throw new NotImplementedException();
+        DbContext.IdentityResources.Add(identityResource);
+
+        await AutoSaveChangesAsync();
+
+        return identityResource.Id;
     }
 
-    public Task<int> UpdateIdentityResourceAsync(IdentityResource identityResource)
+    public async Task<int> UpdateIdentityResourceAsync(IdentityResource identityResource)
     {
-        throw new NotImplementedException();
+        //Remove old relations
+        await RemoveIdentityResourceClaimsAsync(identityResource);
+
+        //Update with new data
+        DbContext.IdentityResources.Update(identityResource);
+
+        return await AutoSaveChangesAsync();
     }
 
-    public Task<int> DeleteIdentityResourceAsync(IdentityResource identityResource)
+    public async Task<int> DeleteIdentityResourceAsync(IdentityResource identityResource)
     {
-        throw new NotImplementedException();
+        var identityResourceToDelete = await DbContext.IdentityResources.Where(x => x.Id == identityResource.Id).SingleOrDefaultAsync();
+
+        DbContext.IdentityResources.Remove(identityResourceToDelete);
+        return await AutoSaveChangesAsync();
     }
 
-    public Task<bool> CanInsertIdentityResourcePropertyAsync(IdentityResourceProperty identityResourceProperty)
+    public async Task<bool> CanInsertIdentityResourcePropertyAsync(IdentityResourceProperty identityResourceProperty)
     {
-        throw new NotImplementedException();
+        var existsWithSameName = await DbContext.IdentityResourceProperties.Where(x => x.Key == identityResourceProperty.Key
+            && x.IdentityResource.Id == identityResourceProperty.IdentityResourceId).SingleOrDefaultAsync();
+        return existsWithSameName == null;
     }
 
-    public Task<PagedList<IdentityResourceProperty>> GetIdentityResourcePropertiesAsync(int identityResourceId, int page = 1, int pageSize = 10)
+    public async Task<PagedList<IdentityResourceProperty>> GetIdentityResourcePropertiesAsync(int identityResourceId, int page = 1, int pageSize = 10)
     {
-        throw new NotImplementedException();
+        var pagedList = new PagedList<IdentityResourceProperty>();
+
+        var properties = await DbContext.IdentityResourceProperties.Where(x => x.IdentityResource.Id == identityResourceId).PageBy(x => x.Id, page, pageSize)
+            .ToListAsync();
+
+        pagedList.Data.AddRange(properties);
+        pagedList.TotalCount = await DbContext.IdentityResourceProperties.Where(x => x.IdentityResource.Id == identityResourceId).CountAsync();
+        pagedList.PageSize = pageSize;
+
+        return pagedList;
     }
 
     public Task<IdentityResourceProperty> GetIdentityResourcePropertyAsync(int identityResourcePropertyId)
     {
-        throw new NotImplementedException();
+        return DbContext.IdentityResourceProperties
+            .Include(x => x.IdentityResource)
+            .Where(x => x.Id == identityResourcePropertyId)
+            .SingleOrDefaultAsync();
     }
 
-    public Task<int> AddIdentityResourcePropertyAsync(int identityResourceId, IdentityResourceProperty identityResourceProperty)
+    public async Task<int> AddIdentityResourcePropertyAsync(int identityResourceId, IdentityResourceProperty identityResourceProperty)
     {
-        throw new NotImplementedException();
+        var identityResource = await DbContext.IdentityResources.Where(x => x.Id == identityResourceId).SingleOrDefaultAsync();
+
+        identityResourceProperty.IdentityResource = identityResource;
+        await DbContext.IdentityResourceProperties.AddAsync(identityResourceProperty);
+
+        return await AutoSaveChangesAsync();
     }
 
-    public Task<int> DeleteIdentityResourcePropertyAsync(IdentityResourceProperty identityResourceProperty)
+    public async Task<int> DeleteIdentityResourcePropertyAsync(IdentityResourceProperty identityResourceProperty)
     {
-        throw new NotImplementedException();
+        var propertyToDelete = await DbContext.IdentityResourceProperties.Where(x => x.Id == identityResourceProperty.Id).SingleOrDefaultAsync();
+
+        DbContext.IdentityResourceProperties.Remove(propertyToDelete);
+        return await AutoSaveChangesAsync();
     }
 
-    public Task<int> SaveAllChangesAsync()
+    public async Task<int> SaveAllChangesAsync()
     {
-        throw new NotImplementedException();
+        return await DbContext.SaveChangesAsync();
+    }
+    
+    protected virtual async Task<int> AutoSaveChangesAsync()
+    {
+        return AutoSaveChanges ? await DbContext.SaveChangesAsync() : (int)SavedStatus.WillBeSavedExplicitly;
+    }
+    
+    private async Task RemoveIdentityResourceClaimsAsync(IdentityResource identityResource)
+    {
+        var identityClaims = await DbContext.IdentityClaims.Where(x => x.IdentityResource.Id == identityResource.Id).ToListAsync();
+        DbContext.IdentityClaims.RemoveRange(identityClaims);
     }
 
-    public bool AutoSaveChanges { get; set; }
 }

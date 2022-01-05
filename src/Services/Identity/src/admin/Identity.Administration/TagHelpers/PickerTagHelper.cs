@@ -1,11 +1,18 @@
-﻿namespace Identity.Administration.TagHelpers;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using Newtonsoft.Json;
+
+namespace Identity.Administration.TagHelpers;
 
 [HtmlTargetElement("picker")]
 public class PickerTagHelper : TagHelper
 {
     public string Url { get; set; }
 
-    [Required] public string Id { get; set; }
+    [Required]
+    public string Id { get; set; }
 
     public string SelectedItemsTitle { get; set; }
 

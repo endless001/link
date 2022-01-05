@@ -1,6 +1,7 @@
 ﻿namespace Identity.EntityFramework.Enums;
 
-public class HashType
+public enum HashType
 {
-    
+    Sha256,
+    Sha512   
 }

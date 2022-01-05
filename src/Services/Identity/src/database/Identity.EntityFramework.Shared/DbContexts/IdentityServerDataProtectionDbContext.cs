@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Identity.EntityFramework.Shared.DbContexts;
 public class IdentityServerDataProtectionDbContext : DbContext, IDataProtectionKeyContext

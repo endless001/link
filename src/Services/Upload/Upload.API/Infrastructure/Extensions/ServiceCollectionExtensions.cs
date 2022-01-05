@@ -50,21 +50,9 @@ namespace Upload.API.Infrastructure.Extensions
 
             var config = configuration.GetSection("StorageConfig").Get<StorageConfig>();
             services.Configure<StorageConfig>(options => configuration.GetSection("StorageConfig").Bind(options));
-
-            services.AddSingleton(sp =>
-            {
-                return new OssClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
-            });
-
-            services.AddSingleton(sp =>
-            {
-                return new AmazonS3Client(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
-            });
-
-            services.AddSingleton(sp =>
-            {
-                return new MinioClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret);
-            });
+            services.AddSingleton(sp => new OssClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret));
+            services.AddSingleton(sp => new AmazonS3Client(config.Endpoint, config.AccessKeyId, config.AccessKeySecret));
+            services.AddSingleton(sp => new MinioClient(config.Endpoint, config.AccessKeyId, config.AccessKeySecret));
             return services;
         }
         public static IServiceCollection AddObjectStorage(this IServiceCollection services, IConfiguration configuration)
@@ -77,7 +65,7 @@ namespace Upload.API.Infrastructure.Extensions
         
        public static IServiceCollection AddObjectStorageFactory(this IServiceCollection services, IConfiguration configuration)
         {
-            Dictionary<string, Func<IServiceProvider, IUploadService>> factory = new Dictionary<string, Func<IServiceProvider, IUploadService>>
+            var factory = new Dictionary<string, Func<IServiceProvider, IUploadService>>
             {
                 {"S3" ,(provider) => provider.GetService<S3UploadService>() },
                 {"OSS" ,(provider) => provider.GetService<OssUploadService>() },
@@ -86,8 +74,8 @@ namespace Upload.API.Infrastructure.Extensions
 
             services.AddSingleton(provider =>
             {
-                Func<string, IUploadService> func = n => factory[n](provider);
-                return func;
+                IUploadService Func(string n) => factory[n](provider);
+                return (Func<string, IUploadService>) Func;
             });
             return services;
         }

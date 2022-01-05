@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\business\Identity.BusinessLogic.Shared\Identity.BusinessLogic.Shared.csproj" />
+    <ProjectReference Include="..\..\business\Identity.BusinessLogic\Identity.BusinessLogic.csproj" />
     <ProjectReference Include="..\..\business\Identity.Shared.Configuration\Identity.Shared.Configuration.csproj" />
     <ProjectReference Include="..\..\database\Identity.EntityFramework.Configuration\Identity.EntityFramework.Configuration.csproj" />
     <ProjectReference Include="..\..\database\Identity.EntityFramework.Shared\Identity.EntityFramework.Shared.csproj" />

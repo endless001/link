@@ -2,6 +2,7 @@
 using Identity.Administration.Constants;
 using Identity.EntityFramework.Configuration.Configuration;
 using Identity.Shared.Configuration.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,4 +1,6 @@
-﻿namespace Identity.EntityFramework.Constants;
+﻿using Identity.Shared.Models;
+
+namespace Identity.EntityFramework.Constants;
 
 public static class ClientConsts
 {

@@ -1,11 +1,14 @@
-﻿namespace Identity.Administration.Configuration;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpsPolicy;
+
+namespace Identity.Administration.Configuration;
 
 public class SecurityConfiguration
 {
     public List<string> CspTrustedDomains { get; set; } = new List<string>();
  
     public bool UseDeveloperExceptionPage { get; set; } = false;
-
   
     public bool UseHsts { get; set; } = true;
    

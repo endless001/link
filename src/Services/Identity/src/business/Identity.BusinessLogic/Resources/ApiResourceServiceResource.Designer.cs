@@ -61,11 +61,65 @@ namespace Identity.BusinessLogic.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Api Resource with id {0} doesn&apos;t exist.
         /// </summary>
         internal static string ApiResourceDoesNotExist {
             get {
                 return ResourceManager.GetString("ApiResourceDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Api Resource already exists.
+        /// </summary>
+        internal static string ApiResourceExistsKey {
+            get {
+                return ResourceManager.GetString("ApiResourceExistsKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Api Resource ({0}) already exists.
+        /// </summary>
+        internal static string ApiResourceExistsValue {
+            get {
+                return ResourceManager.GetString("ApiResourceExistsValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Api Resource Property with id {0} doesn&apos;t exist.
+        /// </summary>
+        internal static string ApiResourcePropertyDoesNotExist {
+            get {
+                return ResourceManager.GetString("ApiResourcePropertyDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Api Resource Property already exists.
+        /// </summary>
+        internal static string ApiResourcePropertyExistsKey {
+            get {
+                return ResourceManager.GetString("ApiResourcePropertyExistsKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Api Resource Property with key ({0}) already exists.
+        /// </summary>
+        internal static string ApiResourcePropertyExistsValue {
+            get {
+                return ResourceManager.GetString("ApiResourcePropertyExistsValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Api Secret with id {0} doesn&apos;t exist.
+        /// </summary>
+        internal static string ApiSecretDoesNotExist {
+            get {
+                return ResourceManager.GetString("ApiSecretDoesNotExist", resourceCulture);
             }
         }
     }

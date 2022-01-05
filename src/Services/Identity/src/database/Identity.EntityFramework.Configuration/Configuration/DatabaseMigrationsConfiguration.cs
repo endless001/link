@@ -8,21 +8,14 @@ public class DatabaseMigrationsConfiguration
 
     public string PersistedGrantDbMigrationsAssembly { get; set; }
 
-    public string AdminLogDbMigrationsAssembly { get; set; }
-
-    public string IdentityDbMigrationsAssembly { get; set; }
-
-    public string AdminAuditLogDbMigrationsAssembly { get; set; }
-
+    public string LogDbMigrationsAssembly { get; set; }
     public string DataProtectionDbMigrationsAssembly { get; set; }
 
     public void SetMigrationsAssemblies(string commonMigrationsAssembly)
     {
-        AdminAuditLogDbMigrationsAssembly = commonMigrationsAssembly;
-        AdminLogDbMigrationsAssembly = commonMigrationsAssembly;
+        LogDbMigrationsAssembly = commonMigrationsAssembly;
         ConfigurationDbMigrationsAssembly = commonMigrationsAssembly;
         DataProtectionDbMigrationsAssembly = commonMigrationsAssembly;
-        IdentityDbMigrationsAssembly = commonMigrationsAssembly;
         PersistedGrantDbMigrationsAssembly = commonMigrationsAssembly;
     }
 }

@@ -7,10 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\admin\Identity.Administration\Identity.Administration.csproj" />
     <ProjectReference Include="..\..\database\Identity.EntityFramework.Configuration\Identity.EntityFramework.Configuration.csproj" />
     <ProjectReference Include="..\..\database\Identity.EntityFramework.MySql\Identity.EntityFramework.MySql.csproj" />
   </ItemGroup>

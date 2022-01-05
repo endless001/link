@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -34,7 +33,7 @@ namespace Upload.API.Controllers
                 return BadRequest();
             }
             var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
-            var newName = Guid.NewGuid().ToString() + Path.GetExtension(fileName);
+            var newName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
 
             await using (var stream = file.OpenReadStream())
             {
@@ -56,7 +55,7 @@ namespace Upload.API.Controllers
             }
   
             var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
-            var newName = Guid.NewGuid().ToString() + Path.GetExtension(fileName);
+            var newName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
             await using (var stream = file.OpenReadStream())
             {
                 await _uploadService.Upload(newName, stream);
@@ -70,7 +69,7 @@ namespace Upload.API.Controllers
         [HttpPost("initiatemultipartupload")]
         public async Task<IActionResult> InitiateMultipartUpload([FromQuery] string fileName)
         {
-            var newName = Guid.NewGuid().ToString() + Path.GetExtension(fileName);
+            var newName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
             var uploadId =  await _uploadService.InitiateMultipartUpload(newName);
             var result = new { FileName = newName, UploadId = uploadId };
             return Ok(result);

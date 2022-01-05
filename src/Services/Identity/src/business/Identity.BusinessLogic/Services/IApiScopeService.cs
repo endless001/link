@@ -1,4 +1,6 @@
-﻿namespace Identity.BusinessLogic.Services;
+﻿using Identity.BusinessLogic.Dtos.Configuration;
+
+namespace Identity.BusinessLogic.Services;
 
 public interface IApiScopeService
 {

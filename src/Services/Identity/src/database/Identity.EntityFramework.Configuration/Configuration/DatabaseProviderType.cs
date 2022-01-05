@@ -1,6 +1,8 @@
 ﻿namespace Identity.EntityFramework.Configuration.Configuration;
 
-public class DatabaseProviderType
+public enum DatabaseProviderType
 {
-    
+    SqlServer,
+    PostgreSQL,
+    MySql
 }

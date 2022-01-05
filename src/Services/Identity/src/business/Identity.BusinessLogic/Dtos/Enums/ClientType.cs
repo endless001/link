@@ -1,6 +1,6 @@
 ﻿namespace Identity.BusinessLogic.Dtos.Enums;
 
-public class ClientType
+public enum ClientType
 {
     Empty = 0,
     Web = 1,
