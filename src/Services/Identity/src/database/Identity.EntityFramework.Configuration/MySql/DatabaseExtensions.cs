@@ -20,10 +20,10 @@ public static class DatabaseExtensions
             where TDataProtectionDbContext : DbContext, IDataProtectionKeyContext
         {
             var migrationsAssembly = typeof(DatabaseExtensions).GetTypeInfo().Assembly.GetName().Name;
+        var viresion = ServerVersion.AutoDetect(connectionStrings.ConfigurationDbConnection);
 
-        
             // Config DB from existing connection
-            services.AddConfigurationDbContext<TConfigurationDbContext>(options =>
+        services.AddConfigurationDbContext<TConfigurationDbContext>(options =>
                 options.ConfigureDbContext = b =>
                     b.UseMySql(connectionStrings.ConfigurationDbConnection, ServerVersion.AutoDetect(connectionStrings.ConfigurationDbConnection), sql => sql.MigrationsAssembly(databaseMigrations.ConfigurationDbMigrationsAssembly ?? migrationsAssembly)));
 
