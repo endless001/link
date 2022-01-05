@@ -12,8 +12,6 @@ namespace Identity.Administration.DependencyInjection.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    
-    
    
     public static IServiceCollection AddIdentityAdmin<TIdentityServerDbContext, TPersistedGrantDbContext,
             TLogDbContext,TDataProtectionDbContext>

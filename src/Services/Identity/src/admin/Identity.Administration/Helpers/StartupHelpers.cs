@@ -45,9 +45,7 @@ public static class StartupHelpers
             {
                 // Adds our required middlewares to the beginning of the app pipeline.
                 // This does not include the middleware that is required to go between UseRouting and UseEndpoints.
-                builder.UseCommonMiddleware(
-                    builder.ApplicationServices.GetRequiredService<SecurityConfiguration>(),
-                    builder.ApplicationServices.GetRequiredService<HttpConfiguration>());
+ 
 
                 next(builder);
 
@@ -148,7 +146,7 @@ public static class StartupHelpers
     public static void AddMvcExceptionFilters(this IServiceCollection services)
     {
         //Exception handling
-        services.AddScoped<ControllerExceptionFilterAttribute>();
+       // services.AddScoped<ControllerExceptionFilterAttribute>();
     }
 
     public static void AddMvcWithLocalization
@@ -292,34 +290,7 @@ public static class StartupHelpers
 
         return Task.FromResult(0);
     }
-    public static void UseCommonMiddleware(this IApplicationBuilder app, SecurityConfiguration securityConfiguration, HttpConfiguration httpConfiguration)
-    {
-        app.UseCookiePolicy();
-
-        if (securityConfiguration.UseDeveloperExceptionPage)
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseExceptionHandler("/Home/Error");
-        }
-
-        if (securityConfiguration.UseHsts)
-        {
-            app.UseHsts();
-        }
-
-        app.UsePathBase(httpConfiguration.BasePath);
-
-        // Add custom security headers
-
-        app.UseStaticFiles();
-
-        // Use Localization
-        app.ConfigureLocalization();
-    }
-
+   
     public static void UseRoutingDependentMiddleware(this IApplicationBuilder app, TestingConfiguration testingConfiguration)
     {
         app.UseAuthentication();
