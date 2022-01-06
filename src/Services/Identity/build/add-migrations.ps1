@@ -15,7 +15,8 @@ $targetContexts = @{
 
 #Initialize the db providers and it's respective projects
 $dpProviders = @{
-    MySql      = "..\..\..\src\database\$projectName.EntityFramework.MySql\$projectName.EntityFramework.MySql.csproj";
+        SqlServer      = "..\..\..\src\database\$projectName.EntityFramework.SqlServer\$projectName.EntityFramework.SqlServer.csproj";
+
 }
 
 #Fix issue when the tools is not installed and the nuget package does not work see https://github.com/MicrosoftDocs/azure-docs/issues/40048

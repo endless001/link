@@ -20,6 +20,7 @@ namespace Account.API.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             builder.ApplyConfiguration(new AccountEntityTypeConfiguration(_encryptionProvider));
         }
 

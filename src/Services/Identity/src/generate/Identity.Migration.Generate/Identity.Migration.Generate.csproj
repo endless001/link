@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\admin\Identity.Administration\Identity.Administration.csproj" />
     <ProjectReference Include="..\..\database\Identity.EntityFramework.Configuration\Identity.EntityFramework.Configuration.csproj" />
     <ProjectReference Include="..\..\database\Identity.EntityFramework.MySql\Identity.EntityFramework.MySql.csproj" />
+    <ProjectReference Include="..\..\database\Identity.EntityFramework.SqlServer\Identity.EntityFramework.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>
