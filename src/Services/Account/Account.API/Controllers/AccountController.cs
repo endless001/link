@@ -27,6 +27,8 @@ namespace Account.API.Controllers
             await _accountService.CheckOrCreateAsync(account.Phone);
             return Ok();
         }
+        
+        
 
     }
 }
