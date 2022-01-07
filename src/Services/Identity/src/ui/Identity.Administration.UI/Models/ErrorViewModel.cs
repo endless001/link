@@ -1,4 +1,4 @@
-namespace Identity.Administration.Dashboard.Models;
+namespace Identity.Administration.UI.Models;
 
 public class ErrorViewModel
 {
