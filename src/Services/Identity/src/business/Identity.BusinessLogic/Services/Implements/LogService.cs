@@ -1,16 +1,26 @@
 ﻿using Identity.BusinessLogic.Dtos.Log;
+using Identity.BusinessLogic.Mappers;
+using Identity.EntityFramework.Repositories;
 
 namespace Identity.BusinessLogic.Services;
 
-public class LogService:ILogService
+public class LogService : ILogService
 {
-    public Task<LogsDto> GetLogsAsync(string search, int page = 1, int pageSize = 10)
+    protected readonly ILogRepository Repository;
+
+    public LogService(ILogRepository repository)
     {
-        throw new NotImplementedException();
+        Repository = repository;
+    }
+    public virtual async Task<LogsDto> GetLogsAsync(string search, int page = 1, int pageSize = 10)
+    {
+        var pagedList = await Repository.GetLogsAsync(search, page, pageSize);
+        var logs = pagedList.ToModel();
+        return logs;
     }
 
-    public Task DeleteLogsOlderThanAsync(DateTime deleteOlderThan)
+    public virtual async Task DeleteLogsOlderThanAsync(DateTime deleteOlderThan)
     {
-        throw new NotImplementedException();
+        await Repository.DeleteLogsOlderThanAsync(deleteOlderThan);
     }
 }
