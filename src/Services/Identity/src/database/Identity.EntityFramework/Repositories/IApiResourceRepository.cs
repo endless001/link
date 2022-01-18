@@ -39,4 +39,6 @@ public interface IApiResourceRepository
 
     bool AutoSaveChanges { get; set; }
 
+    Task<string> GetApiResourceNameAsync(int apiResourceId);
+
 }

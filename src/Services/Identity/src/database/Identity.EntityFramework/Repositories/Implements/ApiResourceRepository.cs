@@ -194,4 +194,11 @@ public class  ApiResourceRepository<TDbContext> : IApiResourceRepository
         var apiResourceScopes = await DbContext.ApiResourceScopes.Where(x => x.ApiResource.Id == identityResource.Id).ToListAsync();
         DbContext.ApiResourceScopes.RemoveRange(apiResourceScopes);
     }
+
+    public async Task<string> GetApiResourceNameAsync(int apiResourceId)
+    {
+        var apiResourceName = await DbContext.ApiResources.Where(x => x.Id == apiResourceId).Select(x => x.Name).SingleOrDefaultAsync();
+
+        return apiResourceName;
+    }
 }
