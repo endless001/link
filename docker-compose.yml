@@ -56,6 +56,7 @@ services:
 #  file-api:
 #    image: file.api
 #    build:
+
 #      context: .
 #      dockerfile: src/Services/File/File.API/Dockerfile
 #
