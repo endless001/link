@@ -13,10 +13,10 @@ public class ApiResourceService : IApiResourceService
 
     private readonly IApiResourceRepository _apiResourceRepository;
     private readonly IClientService _clientService;
-    private readonly ApiResourceServiceResources _apiResourceServiceResources;
+    private readonly IApiResourceServiceResources _apiResourceServiceResources;
     private const string SharedSecret = "SharedSecret";
 
-    public ApiResourceService(IApiResourceRepository apiResourceRepository, IClientService clientService, ApiResourceServiceResources apiResourceServiceResources)
+    public ApiResourceService(IApiResourceRepository apiResourceRepository, IClientService clientService, IApiResourceServiceResources apiResourceServiceResources)
     {
         _apiResourceRepository = apiResourceRepository;
         _clientService = clientService;

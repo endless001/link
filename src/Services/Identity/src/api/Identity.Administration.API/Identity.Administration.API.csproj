@@ -17,8 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\admin\Identity.Administration\Identity.Administration.csproj" />
     <ProjectReference Include="..\..\business\Identity.BusinessLogic\Identity.BusinessLogic.csproj" />
+    <ProjectReference Include="..\..\database\Identity.EntityFramework.MySql\Identity.EntityFramework.MySql.csproj" />
     <ProjectReference Include="..\..\database\Identity.EntityFramework.Shared\Identity.EntityFramework.Shared.csproj" />
+    <ProjectReference Include="..\..\database\Identity.EntityFramework.SqlServer\Identity.EntityFramework.SqlServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

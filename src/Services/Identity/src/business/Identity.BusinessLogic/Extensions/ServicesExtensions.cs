@@ -38,7 +38,7 @@ public static class ServicesExtensions
         services.AddTransient<IPersistedGrantService, PersistedGrantService>();
         services.AddTransient<ILogService, LogService>();
 
-        //Resources
+        //Resources 
         services.AddScoped<IApiResourceServiceResources, ApiResourceServiceResources>();
         services.AddScoped<IApiScopeServiceResources, ApiScopeServiceResources>();
         services.AddScoped<IClientServiceResources, ClientServiceResources>();

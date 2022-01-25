@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Identity.Administration.API.Infrastructure.Extensions;
 using Identity.EntityFramework.Shared.DbContexts;
+using Identity.Administration.DependencyInjection.Extensions;
+using Identity.Administration.Options;
+using Identity.Administration.API.Configuration.Database;
 
 namespace Identity.Administration.API
 {
@@ -29,8 +32,8 @@ namespace Identity.Administration.API
                 options.Filters.Add(typeof(ValidateModelStateFilter));
             });
             
-            services.AddAdminServices<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, LogDbContext>();
-            
+            services.AddIdentityAdmin<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext,IdentityServerDataProtectionDbContext, LogDbContext>(ConfigureOptions);
+
             services.AddCustomAuthentication(Configuration);
             services.AddCors(options =>
             {
@@ -69,6 +72,19 @@ namespace Identity.Administration.API
                 endpoints.MapControllers()
                 .RequireAuthorization("ApiScope"); ;
             });
+        }
+
+        public void ConfigureOptions(IdentityAdminOptions options)
+        {
+            // Applies configuration from appsettings.
+            options.BindConfiguration(Configuration);
+
+            // Set migration assembly for application of db migrations
+            var migrationsAssembly = MigrationAssemblyConfiguration.GetMigrationAssemblyByProvider(options.DatabaseProvider);
+            options.DatabaseMigrations.SetMigrationsAssemblies(migrationsAssembly);
+
+            // Use production DbContexts and auth services.
+            options.Testing.IsStaging = false;
         }
     }
 }
