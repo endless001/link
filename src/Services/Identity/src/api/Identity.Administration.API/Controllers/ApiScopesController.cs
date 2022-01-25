@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.Administration.API.Controllers;
 
+[Route("api/[controller]")]
+[ApiController]
 public class ApiScopesController : ControllerBase
 {
     private readonly IApiErrorResources _errorResources;

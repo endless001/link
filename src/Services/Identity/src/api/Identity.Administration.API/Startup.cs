@@ -10,6 +10,7 @@ using Identity.EntityFramework.Shared.DbContexts;
 using Identity.Administration.DependencyInjection.Extensions;
 using Identity.Administration.Options;
 using Identity.Administration.API.Configuration.Database;
+using Identity.Administration.API.Infrastructure.Resources;
 
 namespace Identity.Administration.API
 {
@@ -31,7 +32,7 @@ namespace Identity.Administration.API
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
                 options.Filters.Add(typeof(ValidateModelStateFilter));
             });
-            
+            services.AddScoped<IApiErrorResources, ApiErrorResources>();
             services.AddIdentityAdmin<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext,IdentityServerDataProtectionDbContext, LogDbContext>(ConfigureOptions);
 
             services.AddCustomAuthentication(Configuration);
@@ -64,13 +65,9 @@ namespace Identity.Administration.API
 
             app.UseRouting();
             app.UseCors("CorsPolicy");
-            app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers()
-                .RequireAuthorization("ApiScope"); ;
+                endpoints.MapControllers(); 
             });
         }
 

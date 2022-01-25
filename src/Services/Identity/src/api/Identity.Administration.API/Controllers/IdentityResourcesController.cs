@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.Administration.API.Controllers;
 
+
+[Route("api/[controller]")]
+[ApiController]
 public class IdentityResourcesController : ControllerBase
 {
     private readonly IIdentityResourceService _identityResourceService;
