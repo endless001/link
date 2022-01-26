@@ -44,7 +44,7 @@ public static class DatabaseExtensions
      
      public static void RegisterMySqlDbContexts<TConfigurationDbContext,
          TPersistedGrantDbContext, TDataProtectionDbContext>(this IServiceCollection services,
-         string identityConnectionString, string configurationConnectionString,
+         string configurationConnectionString,
          string persistedGrantConnectionString, string dataProtectionConnectionString)
          where TPersistedGrantDbContext : DbContext, IIdentityPersistedGrantDbContext
          where TConfigurationDbContext : DbContext, IIdentityConfigurationDbContext

@@ -51,15 +51,13 @@ public static class DatabaseExtensions
     }
 
     public static void RegisterSqlServerDbContexts<TConfigurationDbContext,
-        TPersistedGrantDbContext, TDataProtectionDbContext>(this IServiceCollection services,
-        string identityConnectionString, string configurationConnectionString,
+        TPersistedGrantDbContext, TDataProtectionDbContext>(this IServiceCollection services, string configurationConnectionString,
         string persistedGrantConnectionString, string dataProtectionConnectionString)
         where TPersistedGrantDbContext : DbContext, IIdentityPersistedGrantDbContext
         where TConfigurationDbContext : DbContext, IIdentityConfigurationDbContext
         where TDataProtectionDbContext : DbContext, IDataProtectionKeyContext
     {
         var migrationsAssembly = typeof(DatabaseExtensions).GetTypeInfo().Assembly.GetName().Name;
-
 
         // Config DB from existing connection
         services.AddConfigurationDbContext<TConfigurationDbContext>(options => options.ConfigureDbContext = b =>

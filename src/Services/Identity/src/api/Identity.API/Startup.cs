@@ -11,6 +11,7 @@ using Identity.API.Infrastructure.Extensions;
 using Identity.API.Infrastructure.Devspaces;
 using Identity.API.Infrastructure.GrantValidator;
 using Identity.API.Infrastructure.Services;
+using Identity.EntityFramework.Shared.DbContexts;
 
 namespace Identity.API
 {
@@ -27,35 +28,14 @@ namespace Identity.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-          var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-          var connectionString = Configuration.GetValue<string>("ConnectionString");
-            services.AddIdentityServer(x =>
-              {
-                  x.IssuerUri = "null";
-                  x.Authentication.CookieLifetime = TimeSpan.FromHours(2);
-
-              }).AddExtensionGrantValidator<ResourceOwnerSMSValidator>()
-              .AddDeveloperSigningCredential()
-              .AddDevspacesIfNeeded(Configuration.GetValue("EnableDevspaces", false))
-              .AddConfigurationStore(options =>
-              {
-                  options.ConfigureDbContext = builder => builder.UseMySql(connectionString,
-                       new MySqlServerVersion(new Version(8, 0, 25)),
-                        sql => sql.MigrationsAssembly(migrationsAssembly));
-              })
-              .AddOperationalStore(options =>
-              {
-                  options.ConfigureDbContext = builder => builder.UseMySql(connectionString,
-                  new MySqlServerVersion(new Version(8, 0, 25)),
-                  sql => sql.MigrationsAssembly(migrationsAssembly));
-              })
-              .Services.AddTransient<IProfileService, ProfileService>();
-
+   
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IVerifyService, VerifyService>();
             services.AddScoped<IMessageService, MessageService>();
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
 
+            services.AddIdentityServer<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext>(Configuration);
+            services.AddRegisterDbContexts<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, IdentityServerDataProtectionDbContext>(Configuration);
 
             services.AddSingleton(sp =>
             {

@@ -23,13 +23,7 @@ namespace Identity.API
             var configuration = GetConfiguration();
             Log.Logger = CreateSerilogLogger(configuration);
             var host = CreateHostBuilder(configuration, args).Build();
-            host.MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
-                .MigrateDbContext<ConfigurationDbContext>((context, services) =>
-            {
-                new ConfigurationDbContextSeed()
-                 .SeedAsync(context, configuration)
-                 .Wait();
-            });
+            
 
             host.Run();
         }

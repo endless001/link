@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
         // Add DbContexts for Asp.Net Core Identity, Logging and IdentityServer - Configuration store and Operational store
         if (!options.Testing.IsStaging)
         {
-            services.RegisterDbContexts< TIdentityServerDbContext,
+            services.RegisterDbContexts<TIdentityServerDbContext,
                 TPersistedGrantDbContext, TLogDbContext, TDataProtectionDbContext>(options.ConnectionStrings, options.DatabaseProvider,
                 options.DatabaseMigrations);
         }

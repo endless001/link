@@ -8,7 +8,7 @@
   
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.16.0-rc1" />
-	<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" />
+	  <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.37.0" />
     <PackageReference Include="Grpc.Tools" Version="2.37.0">
       <PrivateAssets>all</PrivateAssets>
@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\database\Identity.EntityFramework.Configuration\Identity.EntityFramework.Configuration.csproj" />
     <ProjectReference Include="..\..\database\Identity.EntityFramework.MySql\Identity.EntityFramework.MySql.csproj" />
   </ItemGroup>
   <ItemGroup>
